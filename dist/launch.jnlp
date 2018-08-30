@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<jnlp codebase="file:/C:/Users/f_lapi/Desktop/Snake/dist/" href="launch.jnlp" spec="1.0+">
+    <information>
+        <title>GameTest</title>
+        <vendor>f_lapi</vendor>
+        <homepage href=""/>
+        <description>GameTest</description>
+        <description kind="short">GameTest</description>
+    </information>
+    <update check="always"/>
+    <security>
+<all-permissions/>
+</security>
+    <resources>
+        <j2se java-vm-args="-Djava.security.policy=applet.policy" version="1.8+"/>
+        <jar href="GameTest.jar" main="true"/>
+    </resources>
+    <applet-desc height="480" main-class="gametest.GameTest" name="GameTest" width="800">
+    </applet-desc>
+</jnlp>
