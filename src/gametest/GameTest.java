@@ -11,7 +11,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import javafx.scene.input.KeyCode;
 
 public class GameTest extends Applet implements Runnable, KeyListener {
 
@@ -65,11 +64,13 @@ public class GameTest extends Applet implements Runnable, KeyListener {
     
     private final boolean infinite = false;
     
-    private final boolean superFoodMode = false;
+    private final boolean superFoodMode = true;
     
-    private final int numberOfSnakes = 2;
+    private final int numberOfSnakes = 1;
     
-    private final int numberOfFoods = numberOfSnakes;
+    private final int numberOfFoods = numberOfSnakes + 2;
+    
+    private final boolean resetSnakeLengthOnDeath = true;
     
     int[] scores = new int[numberOfSnakes];
     private boolean[] snakeLost;
@@ -246,12 +247,24 @@ public class GameTest extends Applet implements Runnable, KeyListener {
             {
                 if (snakeLost[i])
                 {
-                    numSnakesLost++;
-                    snakes.get(i).moveOffScreen();
+                    if(!resetSnakeLengthOnDeath)
+                    {
+                        numSnakesLost++;
+                        snakes.get(i).moveOffScreen();
+                    }
+                    else
+                    {
+                        resetSnake(snakes.get(i), i);
+                        snakeLost[i] = false;
+                    }
                 }
                 else
                     snakeThatWon = i;
             }
+            
+            if(numberOfSnakes == 1)
+                return;
+            
             if (numSnakesLost == numberOfSnakes - 1)//One snake wins
             {
                 System.out.println("Snake " + (snakeThatWon + 1) + " won!");
@@ -379,5 +392,19 @@ public class GameTest extends Applet implements Runnable, KeyListener {
         else if (snake.getY() >= HEIGHT)
             snake.setY(0);
     }
-
+    private void resetSnake(BodySegment snake, int i)
+    {
+        snake.setX(startingLocations[i][0]);
+        snake.setY(startingLocations[i][1]);
+        snake.setTail(null);
+        for (int j = 0; j < startingLength - 1; j++)
+        {
+            snake.addPiece();
+        }
+        nextSnakeMoveX.set(i,startingSpeeds[i][0] * tileSize);
+        nextSnakeMoveY.set(i,startingSpeeds[i][1] * tileSize);
+        previousSnakeMoveX.set(i,0);
+        previousSnakeMoveY.set(i,0);
+        
+    }
 }
